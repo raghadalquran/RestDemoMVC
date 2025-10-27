@@ -18,7 +18,7 @@ namespace RestDemoMVC.Controllers
         {
             // Pass data from controller to view --> ViewBag or ViewData
             ViewBag.total = _contxt.Categories.Count();
-            ViewData["totalProducts"] = _contxt.Products.Count();
+            ViewData["total"] = _contxt.Products.Count();
 
             // Pass two or more models to single View
             // list products + list categories
