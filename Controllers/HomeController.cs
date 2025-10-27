@@ -49,7 +49,7 @@ namespace RestDemoMVC.Controllers
                 .Where(c => c.products.Any(p => p.Name.Contains(name)))
                 .ToListAsync();
 
-           // return View("Menu", categories);
+            return View("Menu", categories);
         }
     }
 }
