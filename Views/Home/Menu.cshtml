@@ -1,0 +1,95 @@
+﻿@using System.Linq
+@using Microsoft.AspNetCore.Identity
+@model IEnumerable<Category>
+
+@{
+    Layout = "_HomeLayout";
+}
+
+<section id="menu" class="menu section">
+    <a href="@Url.Action("Index", "Carts")" class="btn btn-danger">
+    View Cart
+</a>
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Our Menu</h2>
+        <p><span>Check Our</span> <span class="description-title">Yummy Menu</span></p>
+    </div>
+
+    <div class="container">
+
+        <form asp-action="SearchProducts" method="get" class="d-flex justify-content-center mb-4">
+            <input type="text" name="name" class="form-control w-50 me-2" placeholder="Search for product ..." />
+            <button type="submit" class="btn btn-danger">Search</button>
+        </form>
+
+        <!-- Category Tabs -->
+        <ul class="nav nav-tabs d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
+            @{
+                bool first = true;
+            }
+            @foreach (var category in Model)
+            {
+                <li class="nav-item">
+                    <a class="nav-link @(first ? "active show" : "")" data-bs-toggle="tab" data-bs-target="#menu-@category.Id">
+                        <h4>@category.Name</h4>
+                    </a>
+                </li>
+                first = false;
+            }
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" data-aos="fade-up" data-aos-delay="200">
+            @{
+                bool firstTab = true;
+            }
+            @foreach (var category in Model)
+            {
+                <div class="tab-pane fade @(firstTab ? "active show" : "")" id="menu-@category.Id">
+
+                    <div class="tab-header text-center">
+                        <p>Menu</p>
+                        <h3>@category.Name</h3>
+                    </div>
+
+                    <div class="row gy-5">
+                        @if (category.products != null && category.products.Any())
+                        {
+                            foreach (var product in category.products)
+                            {
+                                <div class="col-lg-4 menu-item">
+                                    <a href="~/AdminAssets/assets/img/menu/menu-item-1.png" class="glightbox">
+                                        <img src="@Url.Content("~/images/" + product.ImagePath )" alt="@product.Name" class="menu-img img-fluid"/>
+                                    </a>
+                                    <h4>@product.Name</h4>
+                                    <p class="price">$@product.Price</p>
+
+                                    <!-- Add to Cart Button -->
+                                    <form asp-action="AddProductCart" method="post">
+                                        <input type="hidden" name="id" value="@product.Id" />
+                                        <button type="submit" class="btn btn-success mt-2">
+                                            Add to Cart
+                                        </button>
+                                    </form>
+
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="col-12 text-center text-muted">
+                                <p>No products available in this category.</p>
+                            </div>
+                        }
+                    </div> <!-- End row gy-5 -->
+
+                </div> <!-- End tab-pane -->
+                firstTab = false;
+            }
+        </div> <!-- End tab-content -->
+
+    </div> <!-- End container -->
+
+</section>

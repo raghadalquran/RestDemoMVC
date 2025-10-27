@@ -1,0 +1,165 @@
+﻿@model Tuple<IEnumerable<Product>, IEnumerable<Category>>
+@{
+    Layout = "_AdminLayout";
+}
+
+<div class="row g-4 mb-3">
+
+    <!-- Total Products Card -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card text-white border-0 shadow-lg position-relative overflow-hidden"
+             style="background: linear-gradient(135deg, #ff416c, #ff4b2b); border-radius: 1.2rem; transition: transform 0.3s ease;">
+            <div class="card-body position-relative z-1">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="fw-bold mb-0">Total Products</h4>
+                    <i class="mdi mdi-package-variant-closed mdi-36px opacity-75"></i>
+                </div>
+                <h2 class="fw-bold display-6 mb-0">@ViewData["totalProducts"]</h2>
+            </div>
+            <img src="~/AdminAssets/images/dashboard/circle.svg"
+                 class="position-absolute end-0 top-0 opacity-25"
+                 alt="background" width="150" />
+        </div>
+    </div>
+
+    <!-- Total Categories Card -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card text-white border-0 shadow-lg position-relative overflow-hidden"
+             style="background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 1.2rem; transition: transform 0.3s ease;">
+            <div class="card-body position-relative z-1">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="fw-bold mb-0">Total Categories</h4>
+                    <i class="mdi mdi-format-list-bulleted-type mdi-36px opacity-75"></i>
+                </div>
+                <h2 class="fw-bold display-6 mb-0">@ViewBag.total</h2>
+            </div>
+            <img src="~/AdminAssets/images/dashboard/circle.svg"
+                 class="position-absolute end-0 top-0 opacity-25"
+                 alt="background" width="150" />
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    }
+</style>
+
+
+<div class="container-fluid mt-4">
+
+    <!-- Products Table -->
+    <div class="card shadow-lg border-0 mb-5" style="border-radius: 1rem;">
+        <div class="card-header bg-gradient text-white"
+             style="background: linear-gradient(135deg, #ff416c, #ff4b2b); border-radius: 1rem 1rem 0 0;">
+            <h4 class="mb-0 fw-bold">
+                <i class="mdi mdi-package-variant-closed me-2"></i> Products List
+            </h4>
+        </div>
+        <div class="card-body bg-light">
+            <div class="table-responsive">
+                <table class="table align-middle table-hover mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Price ($)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Item1 != null && Model.Item1.Any())
+                        {
+                            int index = 1;
+                            foreach (var item in Model.Item1)
+                            {
+                                <tr>
+                                    <td>@index</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Price.ToString("0.00")</td>
+                                </tr>
+                                index++;
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3" class="text-center text-muted">No products available</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Categories Table -->
+    <div class="card shadow-lg border-0" style="border-radius: 1rem;">
+        <div class="card-header bg-gradient text-white"
+             style="background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 1rem 1rem 0 0;">
+            <h4 class="mb-0 fw-bold">
+                <i class="mdi mdi-format-list-bulleted-type me-2"></i> Categories List
+            </h4>
+        </div>
+        <div class="card-body bg-light">
+            <div class="table-responsive">
+                <table class="table align-middle table-hover mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Category Name</th>
+                            <th scope="col">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Item2 != null && Model.Item2.Any())
+                        {
+                            int index = 1;
+                            foreach (var item in Model.Item2)
+                            {
+                                <tr>
+                                    <td>@index</td>
+                                    <td>@item.Name</td>
+                                    <td>@item.Description</td>
+                                </tr>
+                                index++;
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="3" class="text-center text-muted">No categories available</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .table-hover tbody tr:hover {
+        background-color: rgba(255, 255, 255, 0.5);
+        transform: scale(1.01);
+        transition: all 0.2s ease-in-out;
+    }
+
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+    .table-dark th {
+        background-color: #2e2e2e !important;
+    }
+</style>
+
+
